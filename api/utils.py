@@ -16,17 +16,21 @@ def create_readable_text(json_file_path):
 
     with open(json_file_path, 'r', encoding='utf-8') as file:
         data = json.load(file)
-
-    result_string = ""
+    result_list=[]
+    
 
     for item in data['data']:
-        result_string += f"Дата заезда: {item[0]}, \n"
-        result_string += f"Регион проживания: {item[5][0]}, \n"
-        result_string += f"Отель: {item[6][1]}, \n"
-        result_string += f"Пансион: {item[7][1]}, \n"
-        result_string += f"Тип номера: {item[8][1]}, \n"
-        result_string += f"Цена: {item[10]['currency']} {item[10]['total']}, \n"
-        result_string += f"Доступные места в отеле: {item[11]}, \n"
-        result_string += "\n"
+        result = {}
+        result["Дата заезда"]= {item[0]}
+        result["Длительность в ночах"]  ={item[3]}
+        result["Регион проживания"] ={item[5][0]}
+        result["Отель"] ={item[6][1]}
+        result["Пансион"] ={item[7][1]}
+        result["Тип номера"]= {item[8][1]}
+        result["Цена"] = float(item[10]['total'])*90
+        result["Доступные места в отеле"]= item[11]
+        result_list.append(result)
 
-    return result_string
+    return result_list
+
+print(create_readable_text('test.json'))
