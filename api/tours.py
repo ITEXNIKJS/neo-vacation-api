@@ -1,8 +1,10 @@
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import requests
 from starlette import status
+
+from .config.config import config
 from .utils import create_readable_text
 
 from api.config.DirectoryInfo import directory_info
@@ -20,7 +22,7 @@ from .utils import get_dict_by_key
 def get_tours(country: str,  # ид страны назначения. (из чекбокса выбираем)
               city: str,  # ид города вылета (из чекбокса выбираем)
               start_date: str,
-              end_date: str,
+              amount_of_days: int, # кол-во дней отпуска
               price_min: int,
               price_max: int,
               hotel_star: int | None = None
@@ -30,30 +32,19 @@ def get_tours(country: str,  # ид страны назначения. (из ч�
     country_id = get_dict_by_key(directory_info.COUNTRIES_DICT, 'name', country)['countryId']
     city_id = get_dict_by_key(directory_info.CITIES_DICT, 'name', city)['cityId']
 
-    def get_amount_of_nights(date1, date2):
-        date1 = datetime.strptime(date1, "%d.%m.%Y").date()
-        date2 = datetime.strptime(date2, "%d.%m.%Y").date()
-        delta = date2 - date1
-        amount_of_nights = delta.days
-        return amount_of_nights
-
-    amount_of_nights = get_amount_of_nights(start_date, end_date)
-
     hotelClassBetter = False
 
     if hotel_star is None:
         hotel_star = get_dict_by_key(directory_info.HOTEL_CLASS_DICT, 'name', '1 *')['classId']
         hotelClassBetter = True
 
-    # ТЕСТОВОЕ ЗНАЧЕНИЕ!!
-    rAndBId = 2424
-    rAndBBetter = True
+    end_date = (datetime.strptime(start_date, "%d.%m.%Y").date() + timedelta(days=config.TIME_DELTA_FOR_TOUR_SEARCH)).strftime("%d.%m.%Y")
 
     def create_request_link():
         return (
-            f'https://search.tez-tour.com/tariffsearch/getResult?accommodationId=2&after={start_date}&before={end_date}&cityId={city_id}&countryId={country_id}&nightsMin={amount_of_nights}&nightsMax={amount_of_nights}&'
+            f'https://search.tez-tour.com/tariffsearch/getResult?accommodationId=2&after={start_date}&before={end_date}&cityId={city_id}&countryId={country_id}&nightsMin={amount_of_days}&nightsMax={amount_of_days}&'
             f'currency=5561&priceMin={price_min}&priceMax={price_max}&hotelClassId=2569&hotelClassBetter={hotelClassBetter}&rAndBId=2424&rAndBBetter=true')
 
     tour_list = requests.get(create_request_link()).text
-    
+    print(tour_list)
     return create_readable_text(json.loads(tour_list))

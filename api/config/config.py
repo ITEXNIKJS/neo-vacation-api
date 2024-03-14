@@ -5,6 +5,6 @@ class ToursConfig:
     COUNTRIES_KEY_NAME = 'countries'
     CITIES_KEY_NAME = 'cities'
     HOTEL_CLASS_KEY_NAME = 'hotelClasses'
-
+    TIME_DELTA_FOR_TOUR_SEARCH = 20 # указывается в днях
 
 config = ToursConfig()
