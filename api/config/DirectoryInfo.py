@@ -12,13 +12,11 @@ class DirectoryInfo:
         CITIES_DICT = None
         self.parse_directory()
 
-
     def parse_directory(self):
         directory = json.loads(self.download_countries_and_cities_directory())
         self.RUBLES_ID = self.get_dict_by_key(directory[config.CURRENCIES_KEY_NAME], 'name', config.CURRENCY_NAME)
         self.COUNTRIES_DICT = directory[config.COUNTRIES_KEY_NAME]
         self.CITIES_DICT = directory[config.CITIES_KEY_NAME]
-
 
     def download_countries_and_cities_directory(self):
         """get all countries and cities"""
@@ -35,7 +33,7 @@ class DirectoryInfo:
 
 
 directory_info = DirectoryInfo()
-if __name__=='__main__':
+if __name__ == '__main__':
     print(directory_info.RUBLES_ID)
     print('countries: ', directory_info.COUNTRIES_DICT)
     print('cities: ', directory_info.CITIES_DICT)
