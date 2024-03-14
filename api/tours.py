@@ -1,11 +1,12 @@
 import json
+import pandas as pd
 from datetime import datetime, timedelta
 
 import requests
 from starlette import status
 
 from .config.config import config
-from .utils import create_readable_text
+from .utils import create_readable_text, get_the_earliest_tour, get_the_cheapest_tour, get_the_earliest_cheapest_tour
 
 from api.config.DirectoryInfo import directory_info
 from api.router import router
@@ -26,9 +27,7 @@ def get_tours(country: str,  # ид страны назначения. (из ч�
               price_min: int,
               price_max: int,
               hotel_star: int | None = None
-              #              token: str = Depends(get_token)
               ):
-    # всунуть эту проверку на даты, которую требует апи
     country_id = get_dict_by_key(directory_info.COUNTRIES_DICT, 'name', country)['countryId']
     city_id = get_dict_by_key(directory_info.CITIES_DICT, 'name', city)['cityId']
 
@@ -46,5 +45,17 @@ def get_tours(country: str,  # ид страны назначения. (из ч�
             f'currency=5561&priceMin={price_min}&priceMax={price_max}&hotelClassId=2569&hotelClassBetter={hotelClassBetter}&rAndBId=2424&rAndBBetter=true')
 
     tour_list = requests.get(create_request_link()).text
-    print(tour_list)
-    return create_readable_text(json.loads(tour_list))
+    tour_list = create_readable_text(json.loads(tour_list))
+
+    # Севина крутая вещь с рассчетом убытков
+
+    tours_df = pd.DataFrame(tour_list)
+    tours_df["Дата заезда"] = pd.to_datetime(tours_df["Дата заезда"], format="%d.%m.%Y")
+
+    earliest_tour = get_the_earliest_tour(tours_df)
+    earliest_cheapest_tour = get_the_earliest_cheapest_tour(tours_df) # сомннительнаф ф-ция в плане логики
+    cheapest_tour = get_the_cheapest_tour(tours_df)
+
+    earliest_tour_without_ad_days = get_the_earliest_vacation_without_ad_dates(tours_df, vacation_paid_days)
+
+    return earliest_tour, earliest_cheapest_tour, cheapest_tour, earliest_tour_without_ad_days

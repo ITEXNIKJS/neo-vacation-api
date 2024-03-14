@@ -27,4 +27,38 @@ def create_readable_text(data):
         result_list.append(result)
 
     return result_list
-# print(create_readable_text('test.json'))
+
+
+def get_the_earliest_tour(tour_df):
+    min_date_row = tour_df.loc[tour_df["Дата заезда"].idxmin()]
+    # Преобразование найденной строки в словарь
+    min_date_dict = min_date_row.to_dict()
+    return min_date_dict
+
+
+def get_the_cheapest_tour(tour_df):
+    cheapest_row = tour_df.loc[tour_df["Цена"].idxmin()]
+    # Преобразование найденной строки в словарь
+    cheapest_dict = cheapest_row.to_dict()
+    return cheapest_dict
+
+
+def get_the_earliest_tour(tour_df):
+    min_date_row = tour_df.loc[tour_df["Дата заезда"].idxmin()]
+    # Преобразование найденной строки в словарь
+    min_date_dict = min_date_row.to_dict()
+    return min_date_dict
+
+
+def get_the_cheapest_tour(tour_df):
+    cheapest_row = tour_df.loc[tour_df["Цена"].idxmin()]
+    # Преобразование найденной строки в словарь
+    cheapest_dict = cheapest_row.to_dict()
+    return cheapest_dict
+
+
+def get_the_earliest_cheapest_tour(tour_df):
+    return tour_df.sort_values(by=["Дата", "Цена"]).iloc[0].to_dict
+
+def get_the_earliest_vacation_without_ad_dates(tour_df, vacation_paid_days):
+
