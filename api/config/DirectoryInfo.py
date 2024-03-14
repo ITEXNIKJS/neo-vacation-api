@@ -10,6 +10,8 @@ class DirectoryInfo:
         RUBLES_ID = None
         COUNTRIES_DICT = None
         CITIES_DICT = None
+        HOTEL_CLASS_DICT = None
+
         self.parse_directory()
 
     def parse_directory(self):
@@ -17,6 +19,7 @@ class DirectoryInfo:
         self.RUBLES_ID = self.get_dict_by_key(directory[config.CURRENCIES_KEY_NAME], 'name', config.CURRENCY_NAME)
         self.COUNTRIES_DICT = directory[config.COUNTRIES_KEY_NAME]
         self.CITIES_DICT = directory[config.CITIES_KEY_NAME]
+        self.HOTEL_CLASS_DICT = directory[config.HOTEL_CLASS_KEY_NAME]
 
     def download_countries_and_cities_directory(self):
         """get all countries and cities"""

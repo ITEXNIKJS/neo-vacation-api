@@ -41,6 +41,10 @@ def get_tours(country: str, # ид страны назначения. (из че
 
     amount_of_nights = get_amount_of_nights(start_date, end_date)
     accomodation = 2
+    hotelClassBetter = True
+
+    if hotel_star is None:
+        hotel_star = directory_info[]
 
     return country_id, city_id
     # get_list_of_tours()

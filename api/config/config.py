@@ -4,6 +4,7 @@ class ToursConfig:
     CURRENCY_NAME = 'Рубль'
     COUNTRIES_KEY_NAME = 'countries'
     CITIES_KEY_NAME = 'cities'
+    HOTEL_CLASS_KEY_NAME = 'hotelClasses'
 
 
 config = ToursConfig()
