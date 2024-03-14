@@ -21,8 +21,8 @@ class Employee:
     #Расчитать отпускные
     def vacation_pay(self, vacationDays):
         #среднегодовой заработок * кол-во дней в отпуске / среднее кол-во дней в месяце
-        coef = self.vacationDaysAvailable
-        if (self.vacationDaysAvailable > vacationDays):
+        coef = vacationDays
+        if (self.vacationDaysAvailable < vacationDays):
             coef = vacationDays - self.vacationDaysAvailable
         vacationPay = self.avgSalary * coef / days_in_month
         return vacationPay
