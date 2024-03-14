@@ -1,7 +1,7 @@
 import uvicorn
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
-
+from api.tours import get_tours
 from api.router import router
 
 app = FastAPI(title='TOUR API',

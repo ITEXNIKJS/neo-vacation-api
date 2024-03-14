@@ -3,11 +3,11 @@ from datetime import datetime
 
 import requests
 from starlette import status
-from utils import create_readable_text
+from .utils import create_readable_text
 
 from api.config.DirectoryInfo import directory_info
 from api.router import router
-from api.utils import get_dict_by_key
+from .utils import get_dict_by_key
 
 
 # from api.utils import get_token
