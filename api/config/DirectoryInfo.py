@@ -2,7 +2,7 @@ import json
 
 import requests
 
-from config import config
+from api.config.config import config
 
 
 class DirectoryInfo:

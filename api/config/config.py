@@ -5,4 +5,6 @@ class ToursConfig:
     COUNTRIES_KEY_NAME = 'countries'
     CITIES_KEY_NAME = 'cities'
 
-config = ToursConfig
+
+config = ToursConfig()
+
