@@ -14,7 +14,7 @@ app.add_middleware(
     allow_headers=['*'],
     allow_credentials=True,
 )
-
+# при запуске приложеньки загружаем в оперативу справочник
 app.include_router(router.router)
 
 if __name__ == '__main__':

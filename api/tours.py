@@ -13,8 +13,8 @@ from api.utils import get_token
             tags=['buildings'],
             response_model=List[Tours],
             summary='Получение информации о здании по фрагменту адреса')
-def get_tours(country_id: int, # ид страны назначения. есть
-              city_id: int
+def get_tours(country: str, # ид страны назначения. (из чекбокса выбираем)
+              city: str, # ид города вылета (из чекбокса выбираем)
                   token: str = Depends(get_token)):
     get_list_of_tours()
     filter_tours()
