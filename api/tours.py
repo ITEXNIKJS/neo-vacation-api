@@ -3,6 +3,7 @@ from datetime import datetime
 
 import requests
 from starlette import status
+from utils import create_readable_text
 
 from api.config.DirectoryInfo import directory_info
 from api.router import router
@@ -54,5 +55,5 @@ def get_tours(country: str,  # ид страны назначения. (из ч�
             f'currency=5561&priceMin={price_min}&priceMax={price_max}&hotelClassId=2569&hotelClassBetter={hotelClassBetter}&rAndBId=2424&rAndBBetter=true')
 
     tour_list = requests.get(create_request_link()).text
-
-    return json.loads(tour_list)
+    
+    return create_readable_text(json.loads(tour_list))
