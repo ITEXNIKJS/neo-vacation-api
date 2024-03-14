@@ -18,13 +18,19 @@ class Employee:
         self.currentSalary = currentSalary
         self.avgSalary = avgSalary
 
-    #Расчитать отпускные
+    #Расчитать отпускные и дополнительные убытки сотрудника, если отпускных мало
     def vacation_pay(self, vacationDays):
         #среднегодовой заработок * кол-во дней в отпуске / среднее кол-во дней в месяце
-        coef = vacationDays
+        coef = vacationDays #сколько дней оплачивается
+        employeeLosses = 0 #Убытки сотрудника, если ему не хватило дней
+
+        #если дней отпуска не хватило
         if (self.vacationDaysAvailable < vacationDays):
             coef = vacationDays - self.vacationDaysAvailable
-        vacationPay = self.avgSalary * coef / days_in_month
-        return vacationPay
+            employeeLosses = self.avgSalary / days_in_month * (vacationDays - self.vacationDaysAvailable)
+            employeeLosses += self.avgSalary / days_in_month * (self.vacationDaysAvailable - coef)
+
+        vacationPay = self.avgSalary / days_in_month * coef
+        return vacationPay, employeeLosses
 
 
