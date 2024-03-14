@@ -4,6 +4,7 @@ from starlette.middleware.cors import CORSMiddleware
 from api.tours import get_tours
 from api.router import router
 
+
 app = FastAPI(title='TOUR API',
               docs_url='/docs',
               redoc_url='/redoc')
@@ -14,7 +15,7 @@ app.add_middleware(
     allow_headers=['*'],
     allow_credentials=True,
 )
-# при запуске приложеньки загружаем в оперативу справочник
+# обавить при запуске приложеньки загружаем в оперативу справочник
 app.include_router(router)
 
 if __name__ == '__main__':
