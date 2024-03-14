@@ -8,4 +8,3 @@ class ToursConfig:
 
 
 config = ToursConfig()
-

@@ -1,8 +1,4 @@
-from http.client import HTTPException
-
-from fastapi import Depends
 from fastapi.security import HTTPBearer
-from starlette import status
 
 security = HTTPBearer(scheme_name='Authorization')
 
