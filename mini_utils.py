@@ -18,8 +18,6 @@ from dateutil.relativedelta import relativedelta
 
 def calc_new_date(current_vacation_days, required_vacation_days):
     today = datetime.today()
-    # в будущем можно передавать в параметры
-    base_count_vac_days = 28
     if required_vacation_days > current_vacation_days:
         remaining_days = required_vacation_days - current_vacation_days
         # Если вдруг накопится в течение month то окргуление до след значения
