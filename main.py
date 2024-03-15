@@ -6,7 +6,6 @@ from starlette.middleware.cors import CORSMiddleware
 from api.tours import get_tours
 from api.router import router
 
-
 app = FastAPI(title='TOUR API',
               docs_url='/docs',
               redoc_url='/redoc')
@@ -21,4 +20,4 @@ app.add_middleware(
 app.include_router(router)
 
 if __name__ == '__main__':
-    uvicorn.run(app=app, host='127.0.0.1', port=int(os.getenv('port')))
+    uvicorn.run(app=app, host='127.0.0.1', port=8000)#int(os.getenv('port')))

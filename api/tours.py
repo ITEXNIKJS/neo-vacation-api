@@ -11,7 +11,6 @@ from api.router import router
 from .config.config import config
 from .config.test_users_data import test_data
 from .hr_plug import Employee
-from .response_schemas import Tours
 from .response_schemas.Tours import Tour
 from .utils import create_readable_text, get_the_earliest_tour, get_the_cheapest_tour, get_the_earliest_cheapest_tour, \
     count_losses, calc_new_date
@@ -100,7 +99,8 @@ def get_tours(user_id: str,
     response_data = [earliest_tour, cheapest_tour, earliest_cheapest_tour, earliest_tour_without_ad_days]
     response = [
         Tour(date_in=obj['Дата заезда'], amount_of_nights=obj['Длительность в ночах'], area=obj['Регион проживания'],
-             hotel=obj['Отель'], room_type=obj['Тип номера'], pansion=obj['Пансион'],price=obj['Цена'], availible_rooms=obj['Доступные места в отеле'],
+             hotel=obj['Отель'], room_type=obj['Тип номера'], pansion=obj['Пансион'], price=obj['Цена'],
+             availible_rooms=obj['Доступные места в отеле'],
              price_with_loss=obj['Цена с убытком'], category=obj['Категория']) for obj in response_data]
 
     return response

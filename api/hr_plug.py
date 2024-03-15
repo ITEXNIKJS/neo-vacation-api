@@ -37,7 +37,7 @@ class Employee:
         return vacationPay, employeeLosses
 
 
-if __name__=='__main__':
+if __name__ == '__main__':
     user_id = '81ddf915-c3e5-4346-8b85-8141ede86c0c'
     test_employees = [Employee(**params) for params in test_data]
     print(test_employees[0].id)

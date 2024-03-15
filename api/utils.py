@@ -41,7 +41,6 @@ def get_the_earliest_tour(tour_df, category_name):
     min_date_row = filtered_df.tail(1)
     min_date_dict = min_date_row.to_dict(orient='records')[0]
 
-
     min_date_dict['Категория'] = category_name
     min_date_dict['Цена с убытком'] = round(min_date_dict['Цена с убытком'], 2)
     min_date_dict['Цена'] = round(min_date_dict['Цена'], 2)
