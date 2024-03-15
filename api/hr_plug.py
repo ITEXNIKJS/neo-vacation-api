@@ -3,7 +3,6 @@ from datetime import datetime, timedelta
 split_char = '|'
 days_in_month = 29.3 # Среднее кол-во дней в месяце, даёт лишь примерный результат
 
-
 Holidays = [
     "01.01.2024",    "02.01.2024",
     "03.01.2024",    "04.01.2024",
@@ -33,12 +32,11 @@ class Employee:
         self.avgSalary = avgSalary
 
     #Расчитать отпускные и дополнительные убытки сотрудника, если отпускных мало
-    def vacation_pay(self, departureDay, tourDurationInDays):
-        #TODO: учёт праздничных дней!!!
+    def vacation_pay(self, tourStartDay, tourDurationInDays):
         #среднегодовой заработок * кол-во дней в отпуске / среднее кол-во дней в месяце
         coef = tourDurationInDays #сколько дней оплачивается
         employeeLosses = 0 #Убытки сотрудника, если ему не хватило дней
-        totalPaidDays = self.count_available_days(departureDay, tourDurationInDays)
+        totalPaidDays = self.count_available_days(tourStartDay, tourDurationInDays)
 
         #если дней отпуска не хватило
         if (totalPaidDays < tourDurationInDays):
