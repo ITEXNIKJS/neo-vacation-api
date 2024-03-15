@@ -1,5 +1,6 @@
 import json
 from datetime import datetime, timedelta
+from typing import List
 
 import pandas as pd
 import requests
@@ -10,6 +11,8 @@ from api.router import router
 from .config.config import config
 from .config.test_users_data import test_data
 from .hr_plug import Employee
+from .response_schemas import Tours
+from .response_schemas.Tours import Tour
 from .utils import create_readable_text, get_the_earliest_tour, get_the_cheapest_tour, get_the_earliest_cheapest_tour, \
     count_losses, calc_new_date
 from .utils import get_dict_by_key
@@ -21,7 +24,7 @@ test_employees = [Employee(**params) for params in test_data]
 
 @router.get('/tour/',
             status_code=status.HTTP_200_OK,
-            #            response_model=List[Tours],
+            response_model=List[Tour],
             summary='Получение списка туров')
 def get_tours(user_id: str,
               country: str,  # ид страны назначения. (из чекбокса выбираем)
@@ -94,6 +97,10 @@ def get_tours(user_id: str,
     tours_df = pd.concat([early_tours_df, late_tours_df], ignore_index=True).drop_duplicates()
     cheapest_tour = get_the_cheapest_tour(tours_df)
 
-    response = [earliest_tour, cheapest_tour, earliest_cheapest_tour, earliest_tour_without_ad_days]
+    response_data = [earliest_tour, cheapest_tour, earliest_cheapest_tour, earliest_tour_without_ad_days]
+    response = [
+        Tour(date_in=obj['Дата заезда'], amount_of_nights=obj['Длительность в ночах'], area=obj['Регион проживания'],
+             hotel=obj['Отель'], room_type=obj['Тип номера'], pansion=obj['Пансион'],price=obj['Цена'], availible_rooms=obj['Доступные места в отеле'],
+             price_with_loss=obj['Цена с убытком'], category=obj['Категория']) for obj in response_data]
 
     return response
