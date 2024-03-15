@@ -21,7 +21,8 @@ test_employee = Employee(1, "test", 2, "10.03.2020", 10000, 10000)
             status_code=status.HTTP_200_OK,
             #            response_model=List[Tours],
             summary='Получение списка туров')
-def get_tours(country: str,  # ид страны назначения. (из чекбокса выбираем)
+def get_tours(user_id: str,
+              country: str,  # ид страны назначения. (из чекбокса выбираем)
               city: str,  # ид города вылета (из чекбокса выбираем)
               start_date: str,
               amount_of_days: int,  # кол-во дней отпуска
