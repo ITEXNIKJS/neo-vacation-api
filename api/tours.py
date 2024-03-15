@@ -102,7 +102,9 @@ def get_tours(user_id: str,
     earliest_cheapest_tour = get_the_earliest_cheapest_tour(early_tours_df, 'Самый ранний и дешевый тур')
 
     if employee.vacationDaysAvailable < amount_of_days:
-        start_date = calc_new_date(employee.vacationDaysAvailable, amount_of_days)
+        date_with_required_vac_days = calc_new_date(employee.vacationDaysAvailable, amount_of_days)
+        if start_date < date_with_required_vac_days:
+            start_date = date_with_required_vac_days
 
     end_date = (start_date + timedelta(
         days=config.TIME_DELTA_FOR_TOUR_SEARCH)).strftime(
