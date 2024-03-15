@@ -55,7 +55,7 @@ def get_tours(country: str,  # ид страны назначения. (из ч�
     early_tours_df = pd.DataFrame(tour_list)
     early_tours_df["Дата заезда"] = pd.to_datetime(early_tours_df["Дата заезда"], format="%d.%m.%Y")
 
-    earliest_tour = get_the_earliest_tour(early_tours_df)
+    earliest_tour = get_the_earliest_tour(early_tours_df, 'Самый ранний тур')
     earliest_cheapest_tour = get_the_earliest_cheapest_tour(early_tours_df)
 
     # старт дейт = дата, когда человек может взять отпуск без взятия доп дней. Пока тут заглушка
@@ -71,12 +71,12 @@ def get_tours(country: str,  # ид страны назначения. (из ч�
     # Севина крутая вещь с рассчетом убытков
 
     late_tours_df = pd.DataFrame(tour_list)
-    earliest_tour_without_ad_days = get_the_earliest_tour(late_tours_df)
+    earliest_tour_without_ad_days = get_the_earliest_tour(late_tours_df,
+                                                          'Самый ранний тур без взятия дополнительных дней отпуска за свой счет')
 
     tours_df = pd.concat([early_tours_df, late_tours_df], ignore_index=True).drop_duplicates()
     cheapest_tour = get_the_cheapest_tour(tours_df)
 
-    response = {'the_earliest': earliest_tour, 'the_earliest_and_the_cheapest': earliest_cheapest_tour,
-                'the_cheapest_tour': cheapest_tour, 'the_earliest_tour_without_add_days': earliest_tour_without_ad_days}
+    response = [earliest_tour, cheapest_tour, earliest_cheapest_tour, earliest_tour_without_ad_days]
 
     return response
