@@ -1,7 +1,14 @@
 import math
 from datetime import datetime
 
+import requests
 from dateutil.relativedelta import relativedelta
+
+
+def get_value_USD():
+    data = requests.get("https://www.cbr-xml-daily.ru/daily_json.js").json()
+    return data["Valute"]["USD"]["Value"]
+
 
 # def calc_new_date(current_vacation_days, required_vacation_days):
 #     today = datetime.today()
@@ -18,6 +25,8 @@ from dateutil.relativedelta import relativedelta
 
 def calc_new_date(current_vacation_days, required_vacation_days):
     today = datetime.today()
+    # в будущем можно передавать в параметры
+    base_count_vac_days = 28
     if required_vacation_days > current_vacation_days:
         remaining_days = required_vacation_days - current_vacation_days
         # Если вдруг накопится в течение month то окргуление до след значения
@@ -30,6 +39,6 @@ def calc_new_date(current_vacation_days, required_vacation_days):
 
 if __name__ == "__main__":
     current_vacation_days = 9
-    required_vacation_days = 200
+    required_vacation_days = 8
 
     print(calc_new_date(current_vacation_days, required_vacation_days))
