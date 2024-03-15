@@ -35,7 +35,7 @@ def create_readable_text(data):
 
 
 def get_the_earliest_tour(tour_df, category_name):
-    """сортировка по дате"""
+    """сортировка по дате. берется одна из записей, если даты совпадают"""
     min_date = tour_df['Дата заезда'].min()
     filtered_df = tour_df[tour_df['Дата заезда'] == min_date]
     min_date_row = filtered_df.tail(1)
