@@ -1,0 +1,16 @@
+[{
+  "id": "1",
+  "name": "Ivan Ivanov",
+  "vacationDaysAvailable": 10,
+  "lastVacation":  "01.01.2024",
+  "currentSalary": 100000,
+  "avgSalary": 100000
+},
+{
+  "id": "2",
+  "name": "Vadim Vadimovich",
+  "vacationDaysAvailable": 20,
+  "lastVacation":  "01.01.2022",
+  "currentSalary": 200000,
+  "avgSalary": 180000
+}]
