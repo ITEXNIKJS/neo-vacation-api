@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field
 
+
 class Tour(BaseModel):
     date_in: str = Field(..., serialization_alias='Дата заезда')
     amount_of_nights: int = Field(..., serialization_alias='Длительность в ночах')
