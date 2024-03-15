@@ -124,7 +124,7 @@ def get_tours(user_id: str,
     response_data.append(cheapest_tour)
 
     response = [
-        Tour(date_in=obj['Дата заезда'], amount_of_nights=obj['Длительность в ночах'], area=obj['Регион проживания'],
+        Tour(date_in=obj['Дата заезда'], city=city, amount_of_nights=obj['Длительность в ночах'], area=obj['Регион проживания'],
              hotel=obj['Отель'], room_type=obj['Тип номера'], pansion=obj['Пансион'], price=obj['Цена'],
              availible_rooms=obj['Доступные места в отеле'],
              price_with_loss=obj['Цена с убытком'], category=obj['Категория']) for obj in response_data]
