@@ -11,11 +11,11 @@ from .config.config import config
 from .config.test_users_data import test_data
 from .hr_plug import Employee
 from .utils import create_readable_text, get_the_earliest_tour, get_the_cheapest_tour, get_the_earliest_cheapest_tour, \
-    count_losses, calc_new_date
+    count_losses
 from .utils import get_dict_by_key
 
 # from api.utils import get_token
-#test_employee = Employee(1, "test", 2, "10.03.2020", 10000, 10000)
+# test_employee = Employee(1, "test", 2, "10.03.2020", 10000, 10000)
 test_employees = [Employee(**params) for params in test_data]
 
 
@@ -41,7 +41,7 @@ def get_tours(user_id: str,
     hotelClassBetter = False
 
     if test_employees is not None:
-        employee = next((obj for obj in test_employees if obj.id == user_id), None) # тестовые данные
+        employee = next((obj for obj in test_employees if obj.id == user_id), None)  # тестовые данные
     else:
         pass  # получение данных о человеке (зп и кол-во накопленных дней отпуска) из отдела кадров. Заглушка вместо апи согласно тз
 
@@ -77,7 +77,7 @@ def get_tours(user_id: str,
 
     early_tours_df = get_tours_list()
     earliest_tour = get_the_earliest_tour(early_tours_df, 'Самый ранний тур')
-    earliest_cheapest_tour = get_the_earliest_cheapest_tour(early_tours_df)
+    earliest_cheapest_tour = get_the_earliest_cheapest_tour(early_tours_df, 'Самый ранний и дешевый тур')
 
     # if employee.vacationDaysAvailable < amount_of_days:
     #     # start_date = start_date + timedelta(
@@ -89,8 +89,8 @@ def get_tours(user_id: str,
         "%d.%m.%Y")
 
     late_tours_df = get_tours_list()
-    earliest_tour_without_ad_days = get_the_earliest_tour(late_tours_df,
-                                                          'Самый ранний тур без взятия дополнительных дней отпуска за свой счет')
+    earliest_tour_without_ad_days = get_the_earliest_cheapest_tour(late_tours_df,
+                                                                   'Самый ранний тур без взятия дополнительных дней отпуска за свой счет')
 
     tours_df = pd.concat([early_tours_df, late_tours_df], ignore_index=True).drop_duplicates()
     cheapest_tour = get_the_cheapest_tour(tours_df)

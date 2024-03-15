@@ -35,11 +35,13 @@ def create_readable_text(data):
 
 
 def get_the_earliest_tour(tour_df, category_name):
+    """сортировка по дате"""
     min_date = tour_df['Дата заезда'].min()
     filtered_df = tour_df[tour_df['Дата заезда'] == min_date]
     min_date_row = filtered_df.tail(1)
-
     min_date_dict = min_date_row.to_dict(orient='records')[0]
+
+
     min_date_dict['Категория'] = category_name
     min_date_dict['Цена с убытком'] = round(min_date_dict['Цена с убытком'], 2)
     min_date_dict['Цена'] = round(min_date_dict['Цена'], 2)
@@ -48,6 +50,7 @@ def get_the_earliest_tour(tour_df, category_name):
 
 
 def get_the_cheapest_tour(tour_df):
+    """сортировка по цене"""
     cheapest_row = tour_df.loc[tour_df["Цена с убытком"].idxmin()]
     # Преобразование найденной строки в словарь
     cheapest_dict = cheapest_row.to_dict()
@@ -58,9 +61,10 @@ def get_the_cheapest_tour(tour_df):
     return cheapest_dict
 
 
-def get_the_earliest_cheapest_tour(tour_df):
+def get_the_earliest_cheapest_tour(tour_df, category_name):
+    """сначала сортировка по дате, потом уже по цене"""
     result_dict = tour_df.sort_values(by=["Дата заезда", "Цена с убытком"]).iloc[0].to_dict()
-    result_dict['Категория'] = 'Самый ранний и дешевый тур'
+    result_dict['Категория'] = category_name
     result_dict['Цена с убытком'] = round(result_dict['Цена с убытком'], 2)
     result_dict['Цена'] = round(result_dict['Цена'], 2)
     result_dict['Дата заезда'] = result_dict['Дата заезда'].strftime('%d.%m.%Y')
