@@ -9,12 +9,13 @@ from api.config.DirectoryInfo import directory_info
 from api.router import router
 from .config.config import config
 from .hr_plug import Employee
-from .utils import create_readable_text, get_the_earliest_tour, get_the_cheapest_tour, get_the_earliest_cheapest_tour, count_losses
+from .utils import create_readable_text, get_the_earliest_tour, get_the_cheapest_tour, get_the_earliest_cheapest_tour, \
+    count_losses
 from .utils import get_dict_by_key
-
 
 # from api.utils import get_token
 test_employee = Employee(1, "test", 2, "10.03.2020", 10000, 10000)
+
 
 @router.get('/tour/',
             status_code=status.HTTP_200_OK,
@@ -33,7 +34,6 @@ def get_tours(country: str,  # ид страны назначения. (из ч�
         city_id = get_dict_by_key(directory_info.CITIES_DICT, 'name', city)['cityId']
     except TypeError as e:
         pass
-
 
     hotelClassBetter = False
 
@@ -56,26 +56,20 @@ def get_tours(country: str,  # ид страны назначения. (из ч�
             f'https://search.tez-tour.com/tariffsearch/getResult?accommodationId=2&after={start_date}&before={end_date}&cityId={city_id}&countryId={country_id}&nightsMin={amount_of_days}&nightsMax={amount_of_days}&'
             f'currency=5561&priceMin={price_min}&priceMax={price_max}&hotelClassId=2569&hotelClassBetter={hotelClassBetter}&rAndBId=2424&rAndBBetter=true')
 
-    def get_tours():
-        pass
-    # tour_list = requests.get(
-    #     create_request_link(start_date, end_date, city_id, country_id, amount_of_days, price_min, price_max,
-    #                         hotelClassBetter)).text
-    # tour_list = create_readable_text(json.loads(tour_list))
-    #
-    # tour_list = add_losses_to_tour_price(employee, tour_list)
-    #
-    # late_tours_df = pd.DataFrame(tour_list)
-    tour_list = requests.get(
-        create_request_link(start_date, end_date, city_id, country_id, amount_of_days, price_min, price_max,
-                            hotelClassBetter)).text
-    tour_list = create_readable_text(json.loads(tour_list))
+    def get_tours_list():
+        tour_list = requests.get(
+            create_request_link(start_date, end_date, city_id, country_id, amount_of_days, price_min, price_max,
+                                hotelClassBetter)).text
+        tour_list = create_readable_text(json.loads(tour_list))
 
-    tour_list['Цена проживания'] = tour_list['Цена проживания'] + count_losses(employee, tour_list)
+        losses = count_losses(employee, tour_list)
 
-    early_tours_df = pd.DataFrame(tour_list)
-    early_tours_df["Дата заезда"] = pd.to_datetime(early_tours_df["Дата заезда"], format="%d.%m.%Y")
+        tours_df = pd.DataFrame(tour_list)
+        tours_df['Цена'] = tours_df['Цена'] + losses
 
+        return tours_df
+
+    early_tours_df = get_tours_list()
     earliest_tour = get_the_earliest_tour(early_tours_df, 'Самый ранний тур')
     earliest_cheapest_tour = get_the_earliest_cheapest_tour(early_tours_df)
 
@@ -85,21 +79,9 @@ def get_tours(country: str,  # ид страны назначения. (из ч�
         days=config.TIME_DELTA_FOR_TOUR_SEARCH)).strftime(
         "%d.%m.%Y")
 
-    tour_list = create_readable_text(json.loads(tour_list))
-    # Севина крутая вещь с рассчетом убытков
-
-    late_tours_df = pd.DataFrame(tour_list)
+    late_tours_df = get_tours_list()
     earliest_tour_without_ad_days = get_the_earliest_tour(late_tours_df,
                                                           'Самый ранний тур без взятия дополнительных дней отпуска за свой счет')
-    # tour_list = requests.get(
-    #     create_request_link(start_date, end_date, city_id, country_id, amount_of_days, price_min, price_max,
-    #                         hotelClassBetter)).text
-    # tour_list = create_readable_text(json.loads(tour_list))
-    #
-    # tour_list = add_losses_to_tour_price(employee, tour_list)
-    #
-    # late_tours_df = pd.DataFrame(tour_list)
-    earliest_tour_without_ad_days = get_the_earliest_tour(late_tours_df)
 
     tours_df = pd.concat([early_tours_df, late_tours_df], ignore_index=True).drop_duplicates()
     cheapest_tour = get_the_cheapest_tour(tours_df)
