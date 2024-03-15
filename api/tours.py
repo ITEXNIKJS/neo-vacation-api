@@ -11,7 +11,7 @@ from .config.config import config
 from .config.test_users_data import test_data
 from .hr_plug import Employee
 from .utils import create_readable_text, get_the_earliest_tour, get_the_cheapest_tour, get_the_earliest_cheapest_tour, \
-    count_losses
+    count_losses, calc_new_date
 from .utils import get_dict_by_key
 
 # from api.utils import get_token
@@ -52,13 +52,14 @@ def get_tours(user_id: str,
         hotel_star = get_dict_by_key(directory_info.HOTEL_CLASS_DICT, 'name', '1 *')['classId']
         hotelClassBetter = True
 
-    end_date = (datetime.strptime(start_date, "%d.%m.%Y").date() + timedelta(
+    start_date = datetime.strptime(start_date, "%d.%m.%Y").date()
+    end_date = (start_date + timedelta(
         days=config.TIME_DELTA_FOR_TOUR_SEARCH)).strftime("%d.%m.%Y")
 
     def create_request_link(start_date, end_date, city_id, country_id, amount_of_days, price_min, price_max,
                             hotelClassBetter):
         return (
-            f'https://search.tez-tour.com/tariffsearch/getResult?accommodationId=2&after={start_date}&before={end_date}&cityId={city_id}&countryId={country_id}&nightsMin={amount_of_days}&nightsMax={amount_of_days}&'
+            f'https://search.tez-tour.com/tariffsearch/getResult?accommodationId=2&after={start_date.strftime("%d.%m.%Y")}&before={end_date}&cityId={city_id}&countryId={country_id}&nightsMin={amount_of_days}&nightsMax={amount_of_days}&'
             f'currency=5561&priceMin={price_min}&priceMax={price_max}&hotelClassId=2569&hotelClassBetter={hotelClassBetter}&rAndBId=2424&rAndBBetter=true')
 
     def get_tours_list():
@@ -79,12 +80,10 @@ def get_tours(user_id: str,
     earliest_tour = get_the_earliest_tour(early_tours_df, 'Самый ранний тур')
     earliest_cheapest_tour = get_the_earliest_cheapest_tour(early_tours_df, 'Самый ранний и дешевый тур')
 
-    # if employee.vacationDaysAvailable < amount_of_days:
-    #     # start_date = start_date + timedelta(
-    #     #     days=calc_new_date(employee.vacationDaysAvailable, amount_of_days)).strftime(
-    #     #     "%d.%m.%Y")
-    start_date = start_date
-    end_date = (datetime.strptime(start_date, "%d.%m.%Y").date() + timedelta(
+    if employee.vacationDaysAvailable < amount_of_days:
+        start_date = calc_new_date(employee.vacationDaysAvailable, amount_of_days)
+
+    end_date = (start_date + timedelta(
         days=config.TIME_DELTA_FOR_TOUR_SEARCH)).strftime(
         "%d.%m.%Y")
 
