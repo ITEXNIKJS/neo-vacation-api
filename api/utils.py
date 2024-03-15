@@ -58,7 +58,5 @@ def get_the_cheapest_tour(tour_df):
 
 
 def get_the_earliest_cheapest_tour(tour_df):
-    return tour_df.sort_values(by=["Дата", "Цена"]).iloc[0].to_dict
-
-def get_the_earliest_vacation_without_ad_dates(tour_df, vacation_paid_days):
+    return tour_df.sort_values(by=["Дата заезда", "Цена"]).iloc[0].to_dict()
 
