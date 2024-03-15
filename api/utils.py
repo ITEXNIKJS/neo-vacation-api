@@ -36,6 +36,7 @@ def get_the_earliest_tour(tour_df, category_name):
     # Преобразование найденной строки в словарь
     min_date_dict = min_date_row.to_dict()
     min_date_dict['Категория'] = category_name
+    min_date_dict['Цена'] = round(min_date_dict['Цена'], 2)
     return min_date_dict
 
 
