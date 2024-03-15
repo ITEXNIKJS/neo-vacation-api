@@ -67,6 +67,7 @@ def get_tours(user_id: str,
 
         tours_df = pd.DataFrame(tour_list)
         tours_df['Цена'] = tours_df['Цена'] + losses
+        pd.to_datetime(tours_df["Дата заезда"], format="%d.%m.%Y")
 
         return tours_df
 
