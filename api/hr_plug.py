@@ -1,11 +1,12 @@
 # Среднее кол-во дней в месяце, даёт лишь примерный результат
+from api.config.test_users_data import test_data
 
 split_char = '|'
 days_in_month = 29.3
 
 
 class Employee:
-    id = -1
+    id = '81ddf915-c3e5-4346-8b85-8141ede86c0c'
     name = "Test Data"
     vacationDaysAvailable = 0
     lastVacation = "01.01.2024"
@@ -34,3 +35,10 @@ class Employee:
 
         vacationPay = self.avgSalary / days_in_month * coef
         return vacationPay, employeeLosses
+
+
+if __name__=='__main__':
+    user_id = '81ddf915-c3e5-4346-8b85-8141ede86c0c'
+    test_employees = [Employee(**params) for params in test_data]
+    print(test_employees[0].id)
+    print([obj for obj in test_employees if obj.id == user_id])
