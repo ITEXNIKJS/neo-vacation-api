@@ -33,8 +33,8 @@ def get_tours(user_id: str,
               amount_of_days: int,  # кол-во дней отпуска
               price_min: int,
               price_max: int,
-              hotel_star: int | None = None
               ):
+    hotel_star = None             
     if amount_of_days >= 20:
         raise HTTPException(status_code=522, detail=f"Количество дней не может превышать 19")
 
