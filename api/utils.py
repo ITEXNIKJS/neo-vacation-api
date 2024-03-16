@@ -28,7 +28,7 @@ def create_readable_text(data):
         result["Отель"] = item[6][1]
         result["Пансион"] = item[7][1]
         result["Тип номера"] = item[8][1]
-        result["Цена"] = float(item[10]['total']) * get_value_USD()
+        result["Цена"] = float(item[10]['total'])
         result["Доступные места в отеле"] = item[11][0][0]
         result_list.append(result)
 
@@ -80,11 +80,6 @@ def count_losses(employee, tours):
         tour = tours
     payment, losses = employee.vacation_pay(tour["Длительность в ночах"])
     return losses
-
-
-def get_value_USD():
-    data = requests.get("https://www.cbr-xml-daily.ru/daily_json.js").json()
-    return data["Valute"]["USD"]["Value"]
 
 
 def calc_new_date(current_vacation_days, required_vacation_days):
