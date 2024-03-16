@@ -70,7 +70,7 @@ def get_tours(user_id: str,
                             hotelClassBetter):
         return (
             f'https://search.tez-tour.com/tariffsearch/getResult?accommodationId=2&after={start_date.strftime("%d.%m.%Y")}&before={end_date}&cityId={city_id}&countryId={country_id}&nightsMin={amount_of_days}&nightsMax={amount_of_days}&'
-            f'currency=5561&priceMin={price_min}&priceMax={price_max}&hotelClassId=2569&hotelClassBetter={hotelClassBetter}&rAndBId=2424&rAndBBetter=true')
+            f'currency=8390&priceMin={price_min}&priceMax={price_max}&hotelClassId=2569&hotelClassBetter={hotelClassBetter}&rAndBId=2424&rAndBBetter=true')
 
     def get_tours_list():
         tour_list_answer = requests.get(
